@@ -1,4 +1,4 @@
-package com.library_system.Library_System.Model.Book;
+package com.library_system.Library_System.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
@@ -24,6 +24,7 @@ public class Book {
     @Column(nullable = false)
     private Integer publicationYear;
 
+    @Column
     private String description;
 
     // Default constructor

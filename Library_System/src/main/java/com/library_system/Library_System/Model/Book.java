@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 public class Book {
@@ -12,19 +14,29 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
+    @Size(min = 1, max = 255, message = "Title must be between 1 and 255 characters")
     @Column(nullable = false)
     private String title;
 
+    @NotBlank(message = "Author is required")
+    @Size(min = 1, max = 255, message = "Author name must be between 1 and 255 characters")
     @Column(nullable = false)
     private String author;
-
+    @NotBlank(message = "ISBN is required")
+    @Pattern(regexp = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$",
+            message = "Invalid ISBN format. Must be a valid ISBN-13 format")
     @Column(nullable = false)
     private String isbn;
 
+    @NotNull(message = "Publication year is required")
+    @Min(value = 1440, message = "Publication year must be after 1440 (invention of printing press)")
+    @Max(value = 2025, message = "Publication year cannot be more than the current year")
     @Column(nullable = false)
     private Integer publicationYear;
 
     @Column
+    @Size(max = 2000, message = "Description must be less than 2000 characters")
     private String description;
 
     // Default constructor

@@ -1,7 +1,9 @@
 package com.library_system.Library_System.Service;
 
+import com.library_system.Library_System.Exceptions.AiServiceException;
 import com.library_system.Library_System.Model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -14,6 +16,13 @@ import java.util.Map;
 public class AIService {
 
     private final ChatClient chatClient;
+
+    @Value("${spring.ai.openai.timeout}")
+    private int timeout;
+
+    @Value("${spring.ai.openai.retry.max-attempts}")
+    private int maxAttempts;
+
 
     @Autowired
     public AIService(ChatClient chatClient)
@@ -43,7 +52,7 @@ public class AIService {
 
             return chatClient.call(prompt).getResult().getOutput().getContent();
         } catch (Exception e ) {
-            throw new RuntimeException("Failed to generate insight " + e.getMessage());
+            throw new AiServiceException("Failed to generate insight " + e.getMessage());
         }
     }
 }

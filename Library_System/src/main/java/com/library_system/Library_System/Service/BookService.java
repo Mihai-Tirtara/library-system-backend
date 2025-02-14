@@ -13,10 +13,14 @@ import java.util.Optional;
 @Service
 @Transactional
 public class BookService implements BookServiceInterface {
+    private final BookRepository bookRepository;
+    private final AIService aiService;
 
-    @Autowired
-    private BookRepository bookRepository;
-    private AIService aiService;
+   @Autowired
+    public BookService(BookRepository bookRepository, AIService aiService) {
+        this.bookRepository = bookRepository;
+        this.aiService = aiService;
+    }
 
     @Override
     public Book createNewBook(Book book)

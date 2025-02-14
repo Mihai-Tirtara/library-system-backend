@@ -13,9 +13,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
+    private final BookService bookService;
 
     @Autowired
-    private BookService bookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book)

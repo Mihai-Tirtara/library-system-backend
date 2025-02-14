@@ -21,7 +21,9 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
+	implementation ('org.springframework.ai:spring-ai-openai-spring-boot-starter') {
+		exclude group: 'org.springframework.cloud', module: 'spring-cloud-function-context'
+	}
 	implementation platform("org.springframework.ai:spring-ai-bom:0.8.1")
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -54,6 +54,7 @@ public class BookService implements BookServiceInterface {
     {
         if(title != null)
         {
+            System.out.println(title);
             return bookRepository.findByTitle(title);
         }
         else if(author != null)

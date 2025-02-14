@@ -16,6 +16,7 @@ public class BookService implements BookServiceInterface {
 
     @Autowired
     private BookRepository bookRepository;
+    private AIService aiService;
 
     @Override
     public Book createNewBook(Book book)
@@ -72,7 +73,7 @@ public class BookService implements BookServiceInterface {
     public String generateAiInsights(Long id){
         Book book = bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Book not found"));
 
-        return "AI insights for book" + book.getTitle();
+        return  aiService.generateInsights(book);
     }
 
 

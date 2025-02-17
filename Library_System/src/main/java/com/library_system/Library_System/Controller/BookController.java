@@ -13,7 +13,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/books")
+@CrossOrigin(
+        origins = "http://localhost:3000",
+        allowedHeaders = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+                RequestMethod.DELETE, RequestMethod.OPTIONS},
+        allowCredentials = "true"
+)
 public class BookController {
     private final BookService bookService;
 

@@ -2,7 +2,9 @@ package com.library_system.Library_System.Controller;
 
 import com.library_system.Library_System.Model.Book;
 import com.library_system.Library_System.Service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +23,11 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Book book)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Book> addBook(@Valid @RequestBody Book book)
     {
         Book newBook = bookService.createNewBook(book);
-        return ResponseEntity.ok(newBook);
+        return new ResponseEntity<>(newBook,HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -35,9 +38,9 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Book>> getBookById(@PathVariable long id )
+    public ResponseEntity<Book> getBookById(@PathVariable long id )
     {
-        Optional<Book> book = bookService.getBookById(id);
+        Book book = bookService.getBookById(id);
         return ResponseEntity.ok(book);
     }
 

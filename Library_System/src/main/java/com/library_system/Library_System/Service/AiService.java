@@ -13,7 +13,7 @@ import java.util.Map;
 
 
 @Service
-public class AIService {
+public class AiService {
 
     private final ChatClient chatClient;
 
@@ -25,7 +25,7 @@ public class AIService {
 
 
     @Autowired
-    public AIService(ChatClient chatClient)
+    public AiService(ChatClient chatClient)
     {
         this.chatClient = chatClient;
 

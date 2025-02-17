@@ -8,16 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class BookService implements BookServiceInterface {
     private final BookRepository bookRepository;
-    private final AIService aiService;
+    private final AiService aiService;
 
    @Autowired
-    public BookService(BookRepository bookRepository, AIService aiService) {
+    public BookService(BookRepository bookRepository, AiService aiService) {
         this.bookRepository = bookRepository;
         this.aiService = aiService;
     }
@@ -33,9 +32,9 @@ public class BookService implements BookServiceInterface {
         return bookRepository.findAll();
     }
     @Override
-    public Optional<Book> getBookById(long id )
+    public Book getBookById(long id )
     {
-        return bookRepository.findById(id);
+        return bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Book not found with id:" + id));
     }
     @Override
     public Book updateBook(Book updatedBook, long  id )
@@ -57,18 +56,21 @@ public class BookService implements BookServiceInterface {
     @Override
     public List<Book> searchBooks(String title, String author)
     {
-        if(title != null)
+        if(author != null && title != null)
         {
             System.out.println(title);
-            return bookRepository.findByTitle(title);
+            System.out.println(bookRepository.findByAuthorAndTitle(author,title));
+            return bookRepository.findByAuthorAndTitle(author,title);
+
         }
         else if(author != null)
         {
+            System.out.println(bookRepository.findByAuthor(author));
             return bookRepository.findByAuthor(author);
         }
-        else if(author != null && title != null)
+        else if(title !=null)
         {
-            return bookRepository.findByAuthorAndTitle(author,title);
+            return bookRepository.findByTitle(title);
         }
         return getAllBooks();
     }
